@@ -3,6 +3,7 @@ package org.javadominicano.cmp;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 /**
  * Representa el suscriptor
@@ -16,7 +17,9 @@ public class Suscriptor {
 
         String clientId = "suscriptor-1";
         try {
-            client = new MqttClient(BROKER_URL, clientId);
+            // Use file persistence so messages aren't lost when the client
+            // is configured with cleanSession=false
+            client = new MqttClient(BROKER_URL, clientId, new MqttDefaultFilePersistence());
         }
         catch (MqttException e) {
             e.printStackTrace();
